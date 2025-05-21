@@ -1,0 +1,45 @@
+/* Footer.css */
+.footer {
+  background-color: #f8f9fa; /* Light grey background */
+  color: #6c757d; /* Secondary text color */
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.footer .container {
+  max-width: 960px; /* Or your preferred container width */
+}
+
+.footer-icon {
+  width: 24px; /* Adjust as needed */
+  height: 24px; /* Adjust as needed */
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.footer a.link-secondary {
+  text-decoration: none;
+  color: #6c757d;
+}
+
+.footer a.link-secondary:hover {
+  color: #007bff; /* Primary color on hover */
+  text-decoration: underline;
+}
+
+.footer .border-top {
+  border-top-color: #dee2e6 !important; /* Ensure border color is visible */
+}
+
+/* Responsive adjustments if needed */
+@media (max-width: 768px) {
+  .footer .col-lg-4 {
+    text-align: center;
+    margin-bottom: 1rem; /* Add space between items on smaller screens */
+  }
+  .footer .col-lg-4:last-child {
+    margin-bottom: 0;
+  }
+}
+

@@ -1,0 +1,62 @@
+/* ServicesPage.css */
+.services-page-container .display-4 {
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+
+.services-page-container .lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.service-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border: 1px solid #e9ecef; /* Light border */
+  border-radius: 0.5rem; /* Rounded corners */
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.service-icon {
+  width: 60px; /* Adjust icon size */
+  height: 60px; /* Adjust icon size */
+  margin-bottom: 1rem;
+  /* Add filter or color if icons are SVG and need styling */
+}
+
+.service-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #343a40;
+  margin-bottom: 0.5rem;
+}
+
+.service-card .card-text {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+/* Styling for the "How to use Khabirk" and "Why choose Khabirk as a technician" sections */
+.services-page-container .bg-light {
+  background-color: #f8f9fa !important; /* Ensure Bootstrap class is applied */
+}
+
+.services-page-container .fs-5 p {
+  line-height: 1.8;
+}
+
+.services-page-container .fs-1 {
+    font-weight: 300; /* Lighter font for headings */
+}
+
+.services-page-container .border-bottom {
+    border-bottom-color: #dee2e6 !important;
+}
+
+.services-page-container .rounded {
+    border-radius: 0.3rem !important; /* Consistent rounding */
+}
+

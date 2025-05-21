@@ -1,0 +1,45 @@
+/* App.css */
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding-top: 1rem; /* Add some padding below the navbar */
+  padding-bottom: 1rem; /* Add some padding above the footer */
+}
+
+/* Global styles for Bootstrap components if needed, or overrides */
+body {
+  font-family: 'Poppins', sans-serif; /* Ensure Poppins is used if not globally set by index.css */
+}
+
+/* You might want to import Bootstrap CSS in index.js or App.js if not already handled by CRA template */
+/* @import '~bootstrap/dist/css/bootstrap.min.css'; */
+
+/* Basic styling for placeholder component */
+.placeholder-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh; /* Take up significant portion of viewport */
+  text-align: center;
+  padding: 20px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  margin: 20px;
+}
+
+.placeholder-container h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.placeholder-container p {
+  color: #666;
+  font-size: 1.1em;
+}
+

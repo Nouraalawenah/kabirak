@@ -1,0 +1,145 @@
+/* HelpCenterPage.css */
+.help-center-page .display-4 {
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+
+.help-center-page .lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+  margin-bottom: 2rem;
+}
+
+.help-center-page .section-title {
+  font-weight: 400;
+  color: #343a40;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e9ecef;
+  display: inline-block;
+  margin-bottom: 2rem !important;
+}
+
+.help-center-page .section-title-light {
+    font-weight: 400;
+    color: #fff;
+    padding-bottom: 0.5rem;
+    border-bottom: 0px;
+    display: inline-block;
+    margin-bottom: 0rem !important;
+}
+
+.accordion-item {
+  margin-bottom: 0.5rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+}
+
+.accordion-button {
+  font-weight: 500;
+  color: #212529;
+  background-color: #f8f9fa;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #0c63e4;
+  background-color: #e7f1ff;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.125);
+}
+
+.accordion-button:focus {
+  z-index: 3;
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.accordion-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #495057;
+}
+
+.contact-support-section .card-header {
+    border-bottom: none;
+}
+
+.contact-support-section .card-header.bg-primary {
+    background-color: #007bff !important; /* Bootstrap primary */
+    border-radius: calc(0.375rem - 1px) calc(0.375rem - 1px) 0 0;
+}
+
+/* Reusing styles from LoginPage.css for form fields as they are similar */
+.help-center-page .field-group {
+  position: relative;
+  margin-bottom: 1rem; /* Add some space between field groups */
+}
+
+.help-center-page .form-input {
+  height: 50px;
+  width: 100%;
+  background: transparent;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  outline: none;
+  padding: 0.75rem 1rem;
+  color: #495057;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.help-center-page .field-group label {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: all 0.2s ease-out;
+  color: #6c757d;
+  background-color: #fff; 
+  padding: 0 0.25rem;
+}
+
+.help-center-page .form-input:focus ~ label,
+.help-center-page .form-input:valid ~ label,
+.help-center-page .form-input:not(:placeholder-shown) ~ label { 
+  top: 0;
+  left: 0.75rem;
+  font-size: 0.85em;
+  color: #007bff;
+}
+
+.help-center-page textarea.form-input {
+    height: auto; /* Allow textarea to grow */
+    padding-top: 0.75rem; /* Adjust padding for textarea label */
+}
+
+.help-center-page textarea.form-input ~ label {
+    top: 0.75rem; /* Align label with top of textarea */
+    transform: translateY(0);
+}
+
+.help-center-page textarea.form-input:focus ~ label,
+.help-center-page textarea.form-input:valid ~ label,
+.help-center-page textarea.form-input:not(:placeholder-shown) ~ label {
+    top: -0.75em; /* Move label above the border */
+    font-size: 0.85em;
+}
+
+.help-center-page .form-input:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.help-center-page .form-input.is-invalid {
+  border-color: #dc3545;
+}
+
+.help-center-page .submit-button {
+  height: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.help-center-page .breadcrumb {
+    font-size: 0.9rem;
+}
+

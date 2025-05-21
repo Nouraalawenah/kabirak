@@ -1,0 +1,109 @@
+/* TechnicianProfilePage.css */
+.technician-profile-page .breadcrumb {
+  background-color: #f8f9fa;
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.technician-profile-page .breadcrumb-item a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.technician-profile-page .breadcrumb-item.active {
+  color: #6c757d;
+}
+
+.technician-header-card {
+  border: none; /* Remove default card border if using shadow for depth */
+  border-radius: 0.75rem;
+}
+
+.technician-profile-avatar {
+  width: 180px; /* Adjust size */
+  height: 180px; /* Adjust size */
+  object-fit: cover;
+  border: 4px solid #fff; /* Optional: white border around avatar */
+  box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
+}
+
+.technician-header-card .card-title {
+  font-weight: 300;
+}
+
+.technician-header-card .text-primary {
+  color: #007bff !important; /* Ensure Bootstrap primary color */
+  font-weight: 500;
+}
+
+.technician-header-card .btn-success {
+  background-color: #28a745; /* Bootstrap success color */
+  border-color: #28a745;
+}
+
+.section-title {
+  font-weight: 300;
+  color: #343a40;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e9ecef;
+  display: inline-block; /* To make border only as wide as text */
+  margin-bottom: 2rem !important; /* Override Bootstrap margin if needed */
+}
+
+.portfolio-item-card {
+  border-radius: 0.5rem;
+  overflow: hidden; /* Ensures image corners are rounded with card */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.portfolio-item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.portfolio-image {
+  width: 100%;
+  height: 200px; /* Fixed height for portfolio images */
+  object-fit: cover;
+}
+
+.portfolio-item-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+.review-item {
+  border-radius: 0.5rem;
+  border: 1px solid #e9ecef;
+}
+
+.review-user {
+  font-weight: 500;
+  color: #343a40;
+}
+
+.review-comment {
+  color: #495057;
+  font-size: 0.95rem;
+}
+
+.review-item .text-muted {
+  font-size: 0.9rem;
+  color: #ffc107 !important; /* Gold color for stars */
+}
+
+.add-review-form-placeholder {
+  border: 1px dashed #ced4da;
+}
+
+.add-review-form-placeholder h4 {
+  font-weight: 400;
+  color: #495057;
+}
+
+/* Font Awesome icons (if you decide to use them) */
+/* Ensure Font Awesome is linked in your public/index.html or installed via npm */
+/* @import "~@fortawesome/fontawesome-free/css/all.min.css"; */
+

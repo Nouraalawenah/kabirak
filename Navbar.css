@@ -1,0 +1,43 @@
+/* Navbar.css */
+.navbar {
+  background-color: #f8f9fa; /* Light grey background, similar to Bootstrap's default */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.navbar-brand img {
+  max-height: 50px; /* Adjust as needed */
+}
+
+.nav-link {
+  color: #343a40; /* Dark grey link color */
+  margin-right: 1rem; /* Spacing between links */
+}
+
+.nav-link:hover {
+  color: #007bff; /* Blue color on hover */
+}
+
+.navbar-toggler {
+  border-color: rgba(0,0,0,.1);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Offcanvas styling */
+.offcanvas-header {
+  border-bottom: 1px solid #dee2e6; /* Light border for separation */
+}
+
+.offcanvas-title {
+  font-weight: bold;
+}
+
+/* Ensure links in offcanvas are also styled */
+.offcanvas-body .nav-link {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
