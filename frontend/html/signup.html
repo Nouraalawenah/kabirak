@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class=" bg-white">
+
+      <nav class="navbar navbar-expand-md ">
+        <div class="container-fluid">
+                <a href="index.html">         
+                <img src="../assets/img 1/logo.jpg"  style="width: 100px; height: 100px;" alt="">
+                </a>
+            <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+      </nav>
+    </div>
+
+     
+      <div class="row justify-content-md-center ">  
+        
+      </div>
+     
+
+      <div class="container text-center ">
+        <div class="row justify-content-center">  
+            <div class="form-box z-0 position-absolute text-dark pt-5 mt-5 border shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+                <header class="form-header">إنشاء حساب جديد</header>
+                <div class="field-group">
+                    <input type="email" class="form-input" id="email" required autocomplete="off">
+                    <label for="email">البريد الإلكتروني</label>
+                </div>
+                <div class="field-group">
+                    <input type="password" class="form-input" id="password" required>
+                    <label for="password">كلمة السر</label>
+                </div>
+                <div class="field-group">
+                    <input type="password" class="form-input" id="confirm-password" required>
+                    <label for="confirm-password">تأكيد كلمة السر</label>
+                </div>
+                <div class="field-group">
+                    <input type="number" class="form-input" id="phone" required>
+                    <label for="phone">رقم الهاتف</label>
+                </div>
+                <div class="field-group">
+                    <input type="text" class="form-input" id="username" required>
+                    <label for="username">الاسم الكامل</label>
+                </div>
+                <div class="field-group">
+                    <input type="text" class="form-input" id="city" required>
+                    <label for="city">المدينة</label>
+                </div>
+                <div class="field-group">
+                    <input type="text" class="form-input" id="address" required>
+                    <label for="address">العنوان</label>
+                </div>
+                <div class="field-group">
+                    <button type="submit" id="submit" class="submit-button">إنشاء الحساب</button>
+                </div>
+             
+            </div>
+        </div>
+      </div>
+
+
+    </div>
+    <script src="../js/functions.js"></script>
+    <script>
+        var email = document.getElementById("email");
+        var password = document.getElementById("password");
+        var confirmPassword = document.getElementById("confirm-password");
+        var phone = document.getElementById("phone");
+        var fullname = document.getElementById("username");
+        var city = document.getElementById("city");
+        var address = document.getElementById("address");
+        function validateForm() {
+            if (email.value == "" || password.value == "" || confirmPassword.value == "" || phone.value == "" || name.value == "" || city.value == "" || address.value == "") {
+                displayError("submit","الرجاء ملء جميع الحقول");
+                return false;
+            }
+            if (password.value != confirmPassword.value) {
+                displayError("submit","كلمات المرور غير متطابقة");
+                return false;
+            }
+            return true;
+        }
+        document.getElementById("submit").addEventListener("click", function(event) {
+            event.preventDefault();
+            if (validateForm()) {
+                var formData = {
+                    "email": email.value,
+                    "password": password.value,
+                    "phone": phone.value,
+                    "name": fullname.value,// "name" variable makes conflict so i need to change it to fullname
+                    "city": city.value,
+                    "address": address.value
+                };
+                fetch("../../backend/signup_api/users_api.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = "index.html";
+                    } else {
+                        displayError("submit", data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    displayError("submit", "حدث خطأ أثناء التسجيل");
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

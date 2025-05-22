@@ -1,0 +1,9 @@
+users_api/
+│
+├
+├── users_api.php        ← الملف الرئيسي
+│
+├── create_user.php      ← createUser($data)
+├── get_user.php         ← getUserById($id)
+├── update_user.php      ← updateUser($id, $data)
+└── delete_user.php      ← deleteUser($id)
