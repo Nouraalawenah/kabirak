@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
 </head>
 
 <body>
@@ -17,7 +18,7 @@
         <nav class="navbar navbar-expand-md ">
             <div class="container-fluid">
                     <a href="index.html">         
-                    <img src="assets/img 1/logo.jpg"  style="width: 100px; height: 100px;" alt="">
+                    <img src="../assets/img 1/logo.jpg"  style="width: 100px; height: 100px;" alt="">
                     </a>
                 <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -57,74 +58,165 @@
         </div>
     
 
-        <div class="card my-5  w-75 container" >
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img src="assets/img/anonymous.jpg" class="img-fluid rounded-start" alt="...">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">علي محمد</h5>
-                  <p class="card-text">اصلاح الكهرباء</p>
-                  <p class="card-text"><small class="text-body-secondary">متخصص في جميع انواع اصلاح الكهرباء المنزلية و المكتبية بكفاءة و دقة عالية.</small></p>
-                  <a href="tel:+15125006688" class="btn btn-primary">call</a>
-                </div>
-              </div>
-            </div>
+        <div id="dataContainer"class="card my-5  w-75 container" >
+           
         </div>
-
-        <div class="row text-center fs-1 pt-5">
-            <div class="col">
-              <h1>بعض من اعمالي</h1>
-            </div>
-          </div>
-
-          <div class="container text-center p-4 bg-body-tertiary">
-            <div class="row">
-                <div class="col-6 col-md-4">
-                    <img src="assets/img 1/electrnic 2.jpg" class="object-fit-sm-contain border " alt="" style=" width: 100%;">
-                </div>
-                <div class="col-6 col-md-4">
-                    <img src="assets/img 1/electrnic 1.jpg" class="object-fit-sm-contain border " alt="" style=" width: 105%;">
-                </div>
-                <div class="col-12 col-md-4 ">
-                    <img src="assets/img 1/electrnic 3.jpg" class="object-fit-sm-contain border " alt="" style=" width: 100%;">
-                </div>
-            </div>
-          </div>
 
         <form class="row g-3 p-md-5 mt-5 bg-body-secondary border-bottom">
             <div class="col-md-12">
-                <label for="exampleFormControlTextarea1" class="form-label">انا مهتم برأيك</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <label for="feedback" class="form-label">انا مهتم برأيك</label>
+                <textarea class="form-control" id="feedback" rows="3"></textarea>
               </div>
+            <div class="col-12 mb-3">
+              <label class="form-label">التقييم</label>
+              <div id="star-rating" style="font-size: 2rem; color: #FFD700; cursor: pointer;">
+                <!-- Stars will be rendered here -->
+              </div>
+            </div>
             <div class="col-12">
 
             </div>
             <div class="col-12">
-              <button class="btn btn-primary" type="submit">Submit</button>
+              <button id="give_feedback" class="btn btn-primary" type="submit">Submit</button>
             </div>
 
         </form>
 
-        <div class="bg-white justify-content-center "> 
+        <div id="footer" class="bg-white justify-content-center "> 
+        </div>
+        <script src="../js/footer.js"></script>
+    <script>
+        
+        function renderData(data) {
+            const cardBody = document.getElementById('dataContainer');
+            const profileImage = data.profile_image ? '../../backend/uploads/' + data.profile_image : '../assets/img/anonymous.jpg';
+            const name = data.name || "Unknown";
+            const city = data.city ? `<span class="badge bg-secondary">${data.city}</span>` : "";
+            const bio = data.bio || "No bio available.";
+            const phone = data.phone || "N/A";
+            const email = data.email || "N/A";
+            const rating = data.rating;
+            const feedback = document.getElementById('feedback');
+            cardBody.innerHTML = `
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img style="width:277px; height:200px;" src="${profileImage}" alt="${name}'s photo" class="img-fluid rounded-start">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">${name}</h4>
+                            <h5 class="card-text">${city}</h5>
+                            <p class="card-text"><small class="text-body-secondary">${bio}</small></p>
+                            ${phone !== "N/A" ? `<a href="tel:${phone}" class="btn btn-primary">${phone}</a>` : ""}
+                            ${email !== "N/A" ? `<a href="mailto:${email}" class="btn btn-secondary">${email}</a>` : ""}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        let selectedRating = 0;
+        document.addEventListener("DOMContentLoaded", function () {
+            const technicianId = new URLSearchParams(window.location.search).get('technician_id');
+            if (!technicianId) {
+                alert("Technician ID is missing in the URL.");
+                return;
+            }
+    
+            fetch(`../../backend/get_technican.php?id=${technicianId}`, {
+                method: 'GET'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Response received:", data);
+                if (data && data.data) {
+                    renderData(data.data);
+                } else {
+                    alert("No technician data found.");
+                }
+            })
+            .catch(error => {
+                console.error("There was a problem with the fetch operation:", error);
+                alert("Failed to load technician data. Please try again later.");
+            });
 
-            <div class="row justify-content-center text-sm-center fs-6 p-4 border-bottom text-secondary bg-body-secondary">
-            <div class="col-md-12 ps-sm-5 col-lg-3 ">
-                <img src="assets/img/call_28dp_666666_FILL0_wght0_GRAD0_opsz48.png" alt="">
-                <a class="link-secondary link-underline link-underline-opacity-0" href="tel:+962786544234">+962 786 544234</a>
-            </div>
-            <div class="col-md-12 ps-sm-5 col-lg-3 ">
-                <img src="assets/img/mail_28dp_666666_FILL0_wght100_GRAD200_opsz48.png" alt="">
-                <a class="link-secondary link-underline link-underline-opacity-0" href="mailto:info@khabirk.com">info@khabirk.com</a>   
-            </div>
-        </div> 
 
-    </div>
+            // Star rating logic
+            const starContainer = document.getElementById("star-rating");
+            
 
+            function renderStars(rating) {
+                console.log("Rendering stars for rating:", rating);
+                starContainer.innerHTML = "";
+                for (let i = 1; i <= 5; i++) {
+                    const star = document.createElement("span");
+                    star.textContent = i <= rating ? "★" : "☆";
+                    star.style.cursor = "pointer";
+                    selectedRating = rating
+                    star.addEventListener("mouseenter", () => renderStars(i));
+                    star.addEventListener("mouseleave", () => renderStars(selectedRating));
 
+                    starContainer.appendChild(star);
+                }
+            }
+            renderStars(selectedRating);
 
+            // Handle feedback form submit
+            document.getElementById("give_feedback").addEventListener("click", function (e) {
+                e.preventDefault();
+                const feedback = document.getElementById("feedback").value;
+                const technicianId = new URLSearchParams(window.location.search).get('technician_id');
+                if (!technicianId) {
+                    alert("Technician ID is missing in the URL.");
+                    return;
+                }
+                if (selectedRating === 0) {
+                    alert("يرجى اختيار تقييم بالنجوم.");
+                    return;
+                }
+                createRate(technicianId, selectedRating, feedback);
+            });
+        });
 
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
+        // Update createRate to accept feedback as a parameter
+        function createRate(technician_id, rating, feedback) {
+            const user_id = sessionStorage.getItem("user_id");
+            if (!user_id) {
+                alert("You must be logged in to rate a technician.");
+                return;
+            }
+            const formData = {
+                technician_id: technician_id,
+                user_id: user_id,
+                feedback: feedback,
+                rating: rating
+            };
+
+            fetch("../../backend/rate_technician.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Rating submitted successfully!");
+                } else {
+                    alert("Failed to submit rating: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while submitting the rating.");
+            });
+        }
+    </script>
+    
 </body>
-</html> 
+</html>

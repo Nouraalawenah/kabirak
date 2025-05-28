@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="../css/bootstrap.min.css" />
+</head>
+<body class="bg-light">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">لوحة التحكم - المسؤول</a>
+      <a href="index.html" class="btn btn-outline-light">العودة للموقع</a>
+    </div>
+  </nav>
+
+  <!-- Dashboard Content -->
+  <div class="container my-5">
+    <div class="row g-5">
+
+      <!-- Create User Account -->
+      <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-primary text-white">
+            إنشاء حساب مقدم خدمات
+          </div>
+          <div class="card-body">
+            <form id="createUserForm" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="username" class="form-label">اسم المستخدم</label>
+                <input type="text" class="form-control" id="username" name="username" required />
+              </div>
+              <div class="mb-3">
+                <label for="phone" class="form-label">رقم الهاتف</label>
+                <input type="text" class="form-control" id="phone" name="phone" required />
+              </div>
+              <div class="mb-3">
+                <label for="city" class="form-label">المدينة</label>
+                <input type="text" class="form-control" id="city" name="city" required />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">البريد الإلكتروني</label>
+                <input type="email" class="form-control" id="email" name="email" required />
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">كلمة المرور</label>
+                <input type="password" class="form-control" id="password" name="password" required />
+              </div>
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required />
+              </div>
+              <div class="mb-3">
+                <label for="service" class="form-label">اختر الخدمة</label>
+                <select class="form-select" id="service" name="service" required>
+                  <option value="" disabled selected>اختر خدمة</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="bio" class="form-label">الوصف</label>
+                <input type="text" class="form-control" id="bio" name="bio" required />
+              </div>
+              <div class="mb-3">
+                <label for="profilePicture" class="form-label">صورة الملف الشخصي</label>
+                <input type="file" class="form-control" id="profilePicture" name="profilePicture" accept="image/*" required />
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">إنشاء الحساب</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add New Service -->
+      <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-success text-white">
+            إضافة خدمة جديدة
+          </div>
+          <div class="card-body">
+            <form id="addServiceForm">
+              <div class="mb-3">
+                <label for="serviceName" class="form-label">اسم الخدمة</label>
+                <input type="text" class="form-control" id="serviceName" name="serviceName" required />
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-success" id="add_service">إضافة الخدمة</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch("../../backend/admin_api/get_services.php")
+        .then(response => response.json())
+        .then(data => {
+          const serviceSelect = document.getElementById('service');
+          data.data.forEach(service => {
+            const option = document.createElement('option');
+            option.value = service.id;
+            option.textContent = service.name;
+            serviceSelect.appendChild(option);
+          });
+        });
+
+      document.getElementById('add_service').addEventListener('click', function(event) {
+        event.preventDefault();
+        const formData = {
+          service_name: document.getElementById('serviceName').value,
+        };
+        fetch("../../backend/admin_api/add_service.php", {
+          method: 'POST',
+          body: JSON.stringify(formData),
+        })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.message);
+          location.reload();
+        });
+      });
+
+      document.getElementById('createUserForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const form = event.target;
+        const phone = document.getElementById('phone').value;
+        if(phone.length !== 10) {
+          alert("رقم الهاتف يجب أن يكون 10 أرقام بالضبط");
+          return;
+        }
+
+        const formData = new FormData(form);
+
+        fetch("../../backend/admin_api/create_user.php", {
+          method: 'POST',
+          body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            alert(data.message);
+          } else {
+            alert("تم إنشاء الحساب بنجاح");
+            location.reload();
+          }
+        })
+        .catch(err => console.error(err));
+      });
+    });
+  </script>
+</body>
+</html>

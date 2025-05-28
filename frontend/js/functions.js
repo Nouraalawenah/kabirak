@@ -19,3 +19,25 @@ function displayError(inputId, errorMessage) {
     // Add invalid class to the input field
     inputField.classList.add('is-invalid');
 }
+
+function displayCities() {
+    let cities = ["Amman", "Zarqa", "Irbid", "Aqaba", "Mafraq", "Madaba", "Karak", "Tafilah", "Ma'an", "Ajloun", "Jerash", "Al-Salt"];
+    let select = document.createElement('select');
+    select.className = 'form-select';
+    select.id = 'city';
+
+    let defaultOption = document.createElement('option');
+    defaultOption.textContent = "Select a city";
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    select.appendChild(defaultOption);
+
+    cities.forEach(city => {
+        let option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        select.appendChild(option);
+    });
+
+    return select;
+}

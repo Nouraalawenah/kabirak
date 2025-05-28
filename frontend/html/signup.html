@@ -62,9 +62,8 @@
                     <input type="text" class="form-input" id="username" required>
                     <label for="username">الاسم الكامل</label>
                 </div>
-                <div class="field-group">
-                    <input type="text" class="form-input" id="city" required>
-                    <label for="city">المدينة</label>
+                <div class="field-group" id="addres">
+
                 </div>
                 <div class="field-group">
                     <input type="text" class="form-input" id="address" required>
@@ -82,56 +81,95 @@
     </div>
     <script src="../js/functions.js"></script>
     <script>
-        var email = document.getElementById("email");
-        var password = document.getElementById("password");
-        var confirmPassword = document.getElementById("confirm-password");
-        var phone = document.getElementById("phone");
-        var fullname = document.getElementById("username");
-        var city = document.getElementById("city");
-        var address = document.getElementById("address");
-        function validateForm() {
-            if (email.value == "" || password.value == "" || confirmPassword.value == "" || phone.value == "" || name.value == "" || city.value == "" || address.value == "") {
-                displayError("submit","الرجاء ملء جميع الحقول");
-                return false;
+        document.addEventListener("DOMContentLoaded", function () {
+            // عرض المدن داخل العنصر المخصص
+            const cityContainer = document.getElementById('addres');
+            const citySelect = displayCities(); // لازم ترجع <select id="city"> من displayCities
+            if (citySelect) {
+                cityContainer.appendChild(citySelect);
             }
-            if (password.value != confirmPassword.value) {
-                displayError("submit","كلمات المرور غير متطابقة");
-                return false;
+    
+            // تعريف المتغيرات
+            const email = document.getElementById("email");
+            const password = document.getElementById("password");
+            const confirmPassword = document.getElementById("confirm-password");
+            const phone = document.getElementById("phone");
+            const fullname = document.getElementById("username");
+            const address = document.getElementById("address");
+    
+            // تأكد إنو العنصر city تم تحميله بعد displayCities()
+            const city = document.getElementById("city");
+    
+            // دالة التحقق من الفورم
+            function validateForm() {
+                console.log("Validating form...");
+                if (
+                    email.value === "" ||
+                    password.value === "" ||
+                    confirmPassword.value === "" ||
+                    phone.value === "" ||
+                    fullname.value === "" ||
+                    !city || city.value === "" ||
+                    address.value === ""
+                ) {
+                    displayError("submit", "الرجاء ملء جميع الحقول");
+                    return false;
+                }
+    
+                if (phone.value.length !== 10) {
+                    displayError("submit", "رقم الهاتف يجب أن يكون 10 أرقام بالضبط");
+                    return false;
+                }
+    
+                if (password.value !== confirmPassword.value) {
+                    displayError("submit", "كلمات المرور غير متطابقة");
+                    return false;
+                }
+    
+                return true;
             }
-            return true;
-        }
-        document.getElementById("submit").addEventListener("click", function(event) {
-            event.preventDefault();
-            if (validateForm()) {
-                var formData = {
-                    "email": email.value,
-                    "password": password.value,
-                    "phone": phone.value,
-                    "name": fullname.value,// "name" variable makes conflict so i need to change it to fullname
-                    "city": city.value,
-                    "address": address.value
-                };
-                fetch("../../backend/signup_api/users_api.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(formData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.href = "index.html";
-                    } else {
-                        displayError("submit", data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    displayError("submit", "حدث خطأ أثناء التسجيل");
-                });
-            }
+    
+            // عند الضغط على زر التسجيل
+            document.getElementById("submit").addEventListener("click", function (event) {
+                event.preventDefault();
+                console.log("Submit button clicked");
+    
+                if (validateForm()) {
+                    console.log("Form is valid, preparing to submit...");
+    
+                    const formData = {
+                        email: email.value,
+                        password: password.value,
+                        phone: phone.value,
+                        name: fullname.value,
+                        city: city.value,
+                        address: address.value
+                    };
+    
+                    fetch("../../backend/user_api/users.route.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                sessionStorage.setItem("user_id", data.data.id);
+                                window.location.href = "index.html";
+                            } else {
+                                displayError("submit", data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            displayError("submit", "حدث خطأ أثناء التسجيل");
+                        });
+                }
+            });
         });
     </script>
+    
 </body>
-</html> 
+</html>

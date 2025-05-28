@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class=" bg-white">
+
+
+
+        <nav class="navbar navbar-expand-md ">
+            <div class="container-fluid">
+                    <a href="index.html">         
+                    <img src="../assets/img 1/logo.jpg"  style="width: 100px; height: 100px;" alt="">
+                    </a>
+                <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item ">
+                                <a class="nav-link "   href="index.html">الرئيسية</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link "   href="servses.html">الخدمات</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="login.html">التسجيل</a>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                </div>
+          </nav>
+
+        <div class="row  p-3  fs-5 fw-light bg-body-secondary ">
+            <div class="col-12 mx-5 ">
+                <h4 class="main_service_name">الدهان</h4> 
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                    <ol class="breadcrumb w-25">
+                      <li class="breadcrumb-item fs-6"><a href="servses.html">الخدمات</a></li>
+                      <li class="breadcrumb-item active fs-6 mian_service_name" aria-current="page">الدهان</li>
+                    </ol>
+                  </nav>
+            </div>
+        </div>
+    
+        <div class="row justify-content-center text-center fs-6 py-3">
+            <div class="col-7 bt-4 border-bottom">
+                
+            </div>
+        </div> 
+
+        <div class="container p-5 w-75">
+          <div class="row mb-4">
+            <div class="col-12 col-md-6">
+              <select id="cityFilter" class="form-select">
+                <option value="">كل المدن</option>
+                <!-- Cities will be populated dynamically -->
+              </select>
+            </div>
+          </div>
+          <div class="row" id="technicians_container">
+            <!-- Cards will be injected here, each inside a col -->
+          </div>
+        </div>
+
+        <div id="footer" class="bg-white justify-content-center "> 
+        </div>
+        <script src="../js/footer.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            var service_id = new URLSearchParams(window.location.search).get("service_id");
+            if (!service_id) {
+                console.error("Service ID is missing in the URL.");
+                return;
+            }
+            fetch(`../../backend/get_technicians_by_service.php?service_id=${service_id}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if (data.success) {
+                    const techniciansContainer = document.getElementById("technicians_container");
+                    const cityFilter = document.getElementById("cityFilter");
+                    let technicians = data.data;
+
+                    // Get unique cities
+                    const cities = [...new Set(technicians.map(t => t.city).filter(Boolean))];
+                    cities.forEach(city => {
+                        const option = document.createElement("option");
+                        option.value = city;
+                        option.textContent = city;
+                        cityFilter.appendChild(option);
+                    });
+
+                    function renderTechnicians(filterCity = "") {
+                        let html = "";
+                        technicians
+                            .filter(t => !filterCity || t.city === filterCity)
+                            .forEach(technician => {
+                                html += `
+            
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <a href="profile.html?technician_id=${technician.id}" class="text-decoration-none text-dark">
+                <div class="card h-100">
+                    <img style="width:100%; height:250px;" src="${technician.profile_image ? '../../backend/uploads/' + technician.profile_image : '../assets/img/anonymous.jpg'}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">${technician.name}</h5>
+                        <p>${technician.service_name}</p>
+                        <p class="card-text">${technician.city}</p>
+                        <p class="card-text">${technician.bio}</p>
+                        <a href="" class="btn btn-primary">${technician.phone}</a>
+                    </div>
+                </div>
+                </a>
+            </div>
+                        `;
+                            });
+                        techniciansContainer.innerHTML = html;
+                    }
+
+                    // Initial render
+                    renderTechnicians();
+
+                    // Filter on city change
+                    cityFilter.addEventListener("change", function() {
+                        renderTechnicians(this.value);
+                    });
+                }
+            })
+        });
+    </script>
+</body>
+</html>
